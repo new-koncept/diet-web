@@ -1,0 +1,34 @@
+<app-foodstuff-selection *ngIf="mode === 'EDIT'"></app-foodstuff-selection>
+<h2>{{ mode === 'ADD' ? 'Přidat potravinu' : 'Upravit' }}</h2>
+<form ngClass="form" [formGroup]="foodstuffForm" (ngSubmit)="addFoodstuffHandler()">
+    <mat-form-field appearance="fill">
+        <mat-label>Název</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Energie (kcal)</mat-label>
+        <input matInput type="number" formControlName="name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Bílkoviny / 100 g</mat-label>
+        <input matInput type="number" formControlName="protein">
+        <mat-error>Maximální hodnota: 100</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Tuky / 100 g</mat-label>
+        <input matInput type="number" formControlName="fat">
+        <mat-error>Maximální hodnota: 100</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Sacharidy / 100 g</mat-label>
+        <input matInput type="number" formControlName="carbohydrate">
+        <mat-error>Maximální hodnota: 100</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Vláknina / 100 g</mat-label>
+        <input matInput type="number" formControlName="fiber">
+        <mat-error>Maximální hodnota: 100</mat-error>
+    </mat-form-field>
+    <mat-error *ngIf="foodstuffForm.errors && foodstuffForm.errors.weightMoreThan100 ">Součet jednotlivých složek je více než 100 g </mat-error>
+    <button mat-button type="submit" color="primary" [disabled]="!foodstuffForm.valid || !submitButtonEnabled">Uložit</button>
+</form>

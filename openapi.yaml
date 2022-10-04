@@ -1,0 +1,265 @@
+openapi: 3.0.1
+info:
+  title: Kalkulace jídelníčku
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /foodstuff:
+    put:
+      tags:
+      - foodstuff-controller
+      summary: Updates foodstuff
+      operationId: updateFoodstuff
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Foodstuff'
+        required: true
+      responses:
+        "200":
+          description: OK
+    post:
+      tags:
+      - foodstuff-controller
+      summary: Save foodstuff
+      operationId: saveFoodstuff
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Foodstuff'
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foodstuff'
+  /login:
+    post:
+      tags:
+      - user-controller
+      summary: Returns encoded credentials in authorization header.
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /foodstuffs/weights:
+    post:
+      tags:
+      - foodstuff-controller
+      summary: Calculates weights for particular foodstuffs respecting desired weight
+        of nutrients.
+      operationId: calculateFoodstuffsWeightsV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateFoodstuffsWeightsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: number
+                  format: double
+  /foodstuffs/contain/{pattern}:
+    get:
+      tags:
+      - foodstuff-controller
+      summary: Get foodstuffs containing pattern
+      operationId: fetchFoodstuffsLike
+      parameters:
+      - name: pattern
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Foodstuff'
+  /dishes:
+    get:
+      tags:
+      - foodstuff-controller
+      summary: Retrieve all dishes
+      operationId: getAllDishes
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dish'
+  /dish/{id}:
+    get:
+      tags:
+      - foodstuff-controller
+      summary: Retrieve dish by id
+      operationId: getFoodstuff
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Dish'
+  /dish/{dishId}/nutrient/{nutrient}/weight/{targetWeight}:
+    get:
+      tags:
+      - foodstuff-controller
+      summary: Calculates recommended dish weight.
+      operationId: calculatePortion
+      parameters:
+      - name: dishId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: nutrient
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - PROTEIN
+          - CARBOHYDRATE
+          - FAT
+          - FIBER
+      - name: targetWeight
+        in: path
+        required: true
+        schema:
+          type: number
+          format: double
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+                format: double
+components:
+  schemas:
+    Foodstuff:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        energy:
+          type: number
+          format: double
+        nutrientsMassFraction:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+        allergens:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        weight:
+          type: number
+          format: double
+    LoginRequest:
+      required:
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    CalculateFoodstuffsWeightsRequest:
+      required:
+      - foodstuffs
+      - nutrients
+      type: object
+      properties:
+        foodstuffs:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Foodstuff'
+        nutrients:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Nutrient'
+    Nutrient:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - PROTEIN
+          - CARBOHYDRATE
+          - FAT
+          - FIBER
+        locked:
+          type: boolean
+        weight:
+          type: number
+          format: double
+    Dish:
+      required:
+      - foodstuffs
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        foodstuffs:
+          type: object
+          additionalProperties:
+            type: number
+            format: double

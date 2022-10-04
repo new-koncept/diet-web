@@ -1,14 +1,44 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FoodstufSelectorComponent } from './foodstuf-selector/foodstuf-selector.component';
+import { MaterialDesignModule } from 'src/material-design/material-design.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { FoodstuffsComponent } from './foodstuffs/foodstuffs.component';
+import { TargetValuesComponent } from './target-values/target-values.component';
+import { AddEditFoodstuffComponent } from './add-edit-foodstuff/add-edit-foodstuff.component';
+import { DishCalculationComponent } from './dish-calculation/dish-calculation.component';
+import { FoodstuffSelectionComponent } from './foodstuff-selection/foodstuff-selection.component';
+
+const routes: Routes = [
+  {path: 'foodstuff/new', component: AddEditFoodstuffComponent},
+  {path: 'foodstuff/edit', component: AddEditFoodstuffComponent},
+  {path: 'dish/calculate', component: DishCalculationComponent},
+  {path: '', redirectTo: '/foodstuff/new', pathMatch: 'full'}
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FoodstufSelectorComponent,
+    FoodstuffsComponent,
+    TargetValuesComponent,
+    AddEditFoodstuffComponent,
+    DishCalculationComponent,
+    FoodstuffSelectionComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    MaterialDesignModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
