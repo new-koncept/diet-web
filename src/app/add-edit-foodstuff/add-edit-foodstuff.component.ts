@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControlOptions, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControlOptions, UntypedFormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Foodstuff } from 'src/api/models'
 import { nutrientsMax100Validator } from './nutrientsMax100Validator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,7 +15,7 @@ import { FoodstuffService } from '../foodstuff.service';
 })
 export class AddEditFoodstuffComponent implements OnInit, OnDestroy {
 
-  foodstuffForm: FormGroup;
+  foodstuffForm: UntypedFormGroup;
   submitButtonEnabled: boolean = true;
   mode: 'ADD' | 'EDIT';
   private routeSubscription: Subscription
@@ -23,7 +23,7 @@ export class AddEditFoodstuffComponent implements OnInit, OnDestroy {
   private foodstuffSelectionResultSubscription: Subscription
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private _snackBar: MatSnackBar,
     private foodstuffControllerService: FoodstuffControllerService,
     router: Router,

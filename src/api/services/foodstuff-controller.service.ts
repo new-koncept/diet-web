@@ -143,9 +143,9 @@ export class FoodstuffControllerService extends BaseService {
   }
 
   /**
-   * Path part for operation calculateFoodstuffsWeightsV2
+   * Path part for operation calculateFoodstuffsWeights
    */
-  static readonly CalculateFoodstuffsWeightsV2Path = '/foodstuffs/weights';
+  static readonly CalculateFoodstuffsWeightsPath = '/foodstuffs/weights';
 
   /**
    * Calculates weights for particular foodstuffs respecting desired weight of nutrients.
@@ -153,11 +153,11 @@ export class FoodstuffControllerService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `calculateFoodstuffsWeightsV2()` instead.
+   * To access only the response body, use `calculateFoodstuffsWeights()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  calculateFoodstuffsWeightsV2$Response(params: {
+  calculateFoodstuffsWeights$Response(params: {
     context?: HttpContext
     body: CalculateFoodstuffsWeightsRequest
   }
@@ -165,7 +165,7 @@ export class FoodstuffControllerService extends BaseService {
 [key: string]: number;
 }>> {
 
-    const rb = new RequestBuilder(this.rootUrl, FoodstuffControllerService.CalculateFoodstuffsWeightsV2Path, 'post');
+    const rb = new RequestBuilder(this.rootUrl, FoodstuffControllerService.CalculateFoodstuffsWeightsPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -190,11 +190,11 @@ export class FoodstuffControllerService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `calculateFoodstuffsWeightsV2$Response()` instead.
+   * To access the full response (for headers, for example), `calculateFoodstuffsWeights$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  calculateFoodstuffsWeightsV2(params: {
+  calculateFoodstuffsWeights(params: {
     context?: HttpContext
     body: CalculateFoodstuffsWeightsRequest
   }
@@ -202,7 +202,7 @@ export class FoodstuffControllerService extends BaseService {
 [key: string]: number;
 }> {
 
-    return this.calculateFoodstuffsWeightsV2$Response(params).pipe(
+    return this.calculateFoodstuffsWeights$Response(params).pipe(
       map((r: StrictHttpResponse<{
 [key: string]: number;
 }>) => r.body as {

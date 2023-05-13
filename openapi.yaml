@@ -1,11 +1,11 @@
 openapi: 3.0.1
 info:
-  title: Kalkulace jídelníčku
+  title: Diet
 servers:
 - url: http://localhost:8080
   description: Generated server url
 paths:
-  /foodstuff:
+  "/foodstuff":
     put:
       tags:
       - foodstuff-controller
@@ -15,10 +15,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Foodstuff'
+              "$ref": "#/components/schemas/Foodstuff"
         required: true
       responses:
-        "200":
+        '200':
           description: OK
     post:
       tags:
@@ -29,16 +29,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Foodstuff'
+              "$ref": "#/components/schemas/Foodstuff"
         required: true
       responses:
-        "201":
+        '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Foodstuff'
-  /login:
+                "$ref": "#/components/schemas/Foodstuff"
+  "/user/logout":
+    post:
+      tags:
+      - user-controller
+      summary: Log out user.
+      operationId: logout
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: string
+  "/user/login":
     post:
       tags:
       - user-controller
@@ -48,39 +61,39 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              "$ref": "#/components/schemas/LoginRequest"
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 type: string
-  /foodstuffs/weights:
+  "/foodstuffs/weights":
     post:
       tags:
       - foodstuff-controller
       summary: Calculates weights for particular foodstuffs respecting desired weight
         of nutrients.
-      operationId: calculateFoodstuffsWeightsV2
+      operationId: calculateFoodstuffsWeights
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CalculateFoodstuffsWeightsRequest'
+              "$ref": "#/components/schemas/CalculateFoodstuffsWeightsRequest"
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 type: object
                 additionalProperties:
                   type: number
                   format: double
-  /foodstuffs/contain/{pattern}:
+  "/foodstuffs/contain/{pattern}":
     get:
       tags:
       - foodstuff-controller
@@ -93,31 +106,31 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Foodstuff'
-  /dishes:
+                  "$ref": "#/components/schemas/Foodstuff"
+  "/dishes":
     get:
       tags:
       - foodstuff-controller
       summary: Retrieve all dishes
       operationId: getAllDishes
       responses:
-        "200":
+        '200':
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 uniqueItems: true
                 type: array
                 items:
-                  $ref: '#/components/schemas/Dish'
-  /dish/{id}:
+                  "$ref": "#/components/schemas/Dish"
+  "/dish/{id}":
     get:
       tags:
       - foodstuff-controller
@@ -131,13 +144,13 @@ paths:
           type: integer
           format: int64
       responses:
-        "200":
+        '200':
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/Dish'
-  /dish/{dishId}/nutrient/{nutrient}/weight/{targetWeight}:
+                "$ref": "#/components/schemas/Dish"
+  "/dish/{dishId}/nutrient/{nutrient}/weight/{targetWeight}":
     get:
       tags:
       - foodstuff-controller
@@ -167,10 +180,10 @@ paths:
           type: number
           format: double
       responses:
-        "200":
+        '200':
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
                 type: number
                 format: double
@@ -223,12 +236,12 @@ components:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/Foodstuff'
+            "$ref": "#/components/schemas/Foodstuff"
         nutrients:
           uniqueItems: true
           type: array
           items:
-            $ref: '#/components/schemas/Nutrient'
+            "$ref": "#/components/schemas/Nutrient"
     Nutrient:
       required:
       - type
@@ -241,8 +254,6 @@ components:
           - CARBOHYDRATE
           - FAT
           - FIBER
-        locked:
-          type: boolean
         weight:
           type: number
           format: double

@@ -13,12 +13,14 @@ import { TargetValuesComponent } from './target-values/target-values.component';
 import { AddEditFoodstuffComponent } from './add-edit-foodstuff/add-edit-foodstuff.component';
 import { DishCalculationComponent } from './dish-calculation/dish-calculation.component';
 import { FoodstuffSelectionComponent } from './foodstuff-selection/foodstuff-selection.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {path: 'foodstuff/new', component: AddEditFoodstuffComponent},
   {path: 'foodstuff/edit', component: AddEditFoodstuffComponent},
   {path: 'dish/calculate', component: DishCalculationComponent},
-  {path: '', redirectTo: '/foodstuff/new', pathMatch: 'full'}
+  {path: 'login', component: LoginComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'}
 ];
 
 @NgModule({

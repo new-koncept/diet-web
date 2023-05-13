@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FoodstuffService } from '../foodstuff.service';
 
@@ -10,12 +10,12 @@ import { FoodstuffService } from '../foodstuff.service';
 })
 export class TargetValuesComponent implements OnInit, OnDestroy {
 
-  constructor(private foodstuffService: FoodstuffService, private formBuilder: FormBuilder) { }
+  constructor(private foodstuffService: FoodstuffService, private formBuilder: UntypedFormBuilder) { }
 
   public foodstuffsToCalculateCount: number = 0
   private foodstuffsToCalculateSubscription: Subscription
 
-  targetValuesForm: FormGroup = this.formBuilder.group({
+  targetValuesForm: UntypedFormGroup = this.formBuilder.group({
     proteinCheck: false,
     proteinWeight: null,
     carbohydrateCheck: false,

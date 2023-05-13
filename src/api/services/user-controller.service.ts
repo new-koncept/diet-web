@@ -23,9 +23,65 @@ export class UserControllerService extends BaseService {
   }
 
   /**
+   * Path part for operation logout
+   */
+  static readonly LogoutPath = '/user/logout';
+
+  /**
+   * Log out user.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `logout()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  logout$Response(params?: {
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<string>> {
+
+    const rb = new RequestBuilder(this.rootUrl, UserControllerService.LogoutPath, 'post');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'blob',
+      accept: '*/*',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<string>;
+      })
+    );
+  }
+
+  /**
+   * Log out user.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `logout$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  logout(params?: {
+    context?: HttpContext
+  }
+): Observable<string> {
+
+    return this.logout$Response(params).pipe(
+      map((r: StrictHttpResponse<string>) => r.body as string)
+    );
+  }
+
+  /**
    * Path part for operation login
    */
-  static readonly LoginPath = '/login';
+  static readonly LoginPath = '/user/login';
 
   /**
    * Returns encoded credentials in authorization header.
